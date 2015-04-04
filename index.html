@@ -15,6 +15,7 @@
 
     <script type="text/javascript">
 var isPushEnabled = false;
+var subscriptionId = '';
 
 // Once the service worker is registered set the initial state
 function initialiseState() {
@@ -108,13 +109,16 @@ function subscribe() {
 function sendSubscriptionToServer(subscription) {
     console.log("Subscription", subscription);
 
+    subscriptionId = subscription.subscriptionId;
+
     var sendButton = document.querySelector('.js-send-button');
     sendButton.disabled = false;
 }
 
 function sendNotification() {
     var oReq = new XMLHttpRequest();
-    //oReq.open("get", "https://android.googleapis.com/gcm/send", true);
+    oReq.open("get", "send.php?s=" + subscriptionId, true);
+    oReq.send();
 }
 
 function unsubscribe() {
